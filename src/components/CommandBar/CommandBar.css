@@ -1,0 +1,90 @@
+.command-bar {
+  position: relative;
+  width: 100%;
+  background-color: #0a0e1a;
+  border: 2px solid #00ff00;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+}
+
+.command-bar-input-wrapper {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 8px;
+}
+
+.command-bar-prompt {
+  color: #00ff00;
+  font-size: 20px;
+  font-weight: bold;
+  user-select: none;
+}
+
+.command-bar-input {
+  flex: 1;
+  background-color: transparent;
+  border: none;
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+  font-size: 18px;
+  outline: none;
+  caret-color: #00ff00;
+}
+
+.command-bar-execute-btn {
+  background-color: #003300;
+  border: 2px solid #00ff00;
+  color: #00ff00;
+  padding: 8px 16px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.command-bar-execute-btn:hover {
+  background-color: #004400;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.command-bar-execute-btn:active {
+  background-color: #005500;
+}
+
+.command-bar-input::placeholder {
+  color: #006600;
+}
+
+.command-bar-input:focus {
+  outline: none;
+}
+
+.command-bar:focus-within {
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+}
+
+.command-bar-function-codes {
+  display: flex;
+  gap: 8px;
+  padding: 4px 12px 8px;
+  flex-wrap: wrap;
+}
+
+.function-code {
+  color: #00cc00;
+  font-size: 11px;
+  padding: 2px 6px;
+  border: 1px solid #004400;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.function-code:hover {
+  background-color: #002200;
+  border-color: #00ff00;
+}

@@ -1,0 +1,480 @@
+.quote-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
+}
+
+.quote-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #333;
+}
+
+.quote-panel-symbol {
+  font-size: 18px;
+  font-weight: bold;
+  color: #00ff00;
+}
+
+.quote-panel-name {
+  font-size: 12px;
+  color: #888;
+  margin-top: 2px;
+}
+
+.quote-panel-stale {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #ff6600;
+  font-size: 11px;
+  animation: stale-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes stale-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.quote-panel-stale-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #ff6600;
+  border-radius: 50%;
+}
+
+.quote-panel-prices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.quote-panel-price-box {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  background-color: #111;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+
+.quote-panel-price-box.bid {
+  border-color: #0066cc;
+}
+
+.quote-panel-price-box.ask {
+  border-color: #cc6600;
+}
+
+.quote-panel-price-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.quote-panel-price-value {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.quote-panel-price-value.bid {
+  color: #0099ff;
+}
+
+.quote-panel-price-value.ask {
+  color: #ff9900;
+}
+
+.quote-panel-last {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  background-color: #111;
+  border: 1px solid #333;
+  border-radius: 4px;
+}
+
+.quote-panel-last-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.quote-panel-last-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #00ff00;
+}
+
+.quote-panel-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.quote-panel-detail {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  background-color: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 2px;
+}
+
+.quote-panel-detail-label {
+  color: #666;
+  font-size: 12px;
+}
+
+.quote-panel-detail-value {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.quote-panel-detail-value.positive {
+  color: #00ff00;
+}
+
+.quote-panel-detail-value.negative {
+  color: #ff4444;
+}
+
+.quote-panel-detail-value.neutral {
+  color: #888;
+}
+
+.quote-panel-no-symbol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #666;
+  text-align: center;
+}
+
+.quote-panel-no-symbol-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.quote-panel-no-symbol-text {
+  font-size: 14px;
+}
+
+.quote-panel-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #00cc00;
+}
+
+.quote-panel-loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.quote-panel-timestamp {
+  font-size: 10px;
+  color: #444;
+  text-align: right;
+  padding-top: 8px;
+  border-top: 1px solid #222;
+}
+
+/* Simple Quote Panel Styles */
+.quote-panel__search {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.quote-panel__input {
+  flex: 1;
+  background-color: #0a0a0a;
+  border: 1px solid #333;
+  color: #00ff00;
+  padding: 8px 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+}
+
+.quote-panel__input:focus {
+  outline: none;
+  border-color: #00cc00;
+}
+
+.quote-panel__search-btn {
+  background-color: #003300;
+  border: 1px solid #00cc00;
+  color: #00ff00;
+  padding: 8px 16px;
+  font-family: 'Courier New', monospace;
+  cursor: pointer;
+}
+
+.quote-panel__search-btn:hover {
+  background-color: #004400;
+}
+
+.quote-panel__quick-select {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.quote-panel__quick-btn {
+  background: none;
+  border: 1px solid #333;
+  color: #888;
+  padding: 4px 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.quote-panel__quick-btn:hover {
+  border-color: #00cc00;
+  color: #00cc00;
+}
+
+.quote-panel__quick-btn--active {
+  border-color: #00ff00;
+  color: #00ff00;
+  background-color: #002200;
+}
+
+.quote-panel__loading,
+.quote-panel__error,
+.quote-panel__waiting {
+  text-align: center;
+  padding: 20px;
+  color: #888;
+}
+
+.quote-panel__error {
+  color: #ff4444;
+}
+
+.quote-panel__tile {
+  background-color: #111;
+  border: 1px solid #333;
+  padding: 16px;
+}
+
+.quote-panel__tile--stale {
+  border-color: #ff6600;
+  opacity: 0.7;
+}
+
+.quote-panel__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #333;
+}
+
+.quote-panel__symbol {
+  font-size: 18px;
+  font-weight: bold;
+  color: #00ff00;
+}
+
+.quote-panel__name {
+  font-size: 11px;
+  color: #888;
+}
+
+.quote-panel__price {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+}
+
+.quote-panel__last {
+  font-size: 28px;
+  font-weight: bold;
+  color: #00ff00;
+}
+
+.quote-panel__change {
+  font-size: 14px;
+}
+
+.quote-panel__positive {
+  color: #00ff00;
+}
+
+.quote-panel__negative {
+  color: #ff4444;
+}
+
+.quote-panel__bid-ask {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.quote-panel__bid,
+.quote-panel__spread,
+.quote-panel__ask {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  background-color: #0a0a0a;
+  border: 1px solid #222;
+}
+
+.quote-panel__bid {
+  border-color: #0066cc;
+}
+
+.quote-panel__ask {
+  border-color: #cc6600;
+}
+
+.quote-panel__trade-btn {
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  transition: all 0.15s;
+}
+
+.quote-panel__trade-btn:hover {
+  transform: scale(1.02);
+}
+
+.quote-panel__bid.quote-panel__trade-btn:hover {
+  background-color: #001a33;
+  border-color: #0099ff;
+  box-shadow: 0 0 8px rgba(0, 102, 204, 0.5);
+}
+
+.quote-panel__ask.quote-panel__trade-btn:hover {
+  background-color: #331a00;
+  border-color: #ff9900;
+  box-shadow: 0 0 8px rgba(204, 102, 0, 0.5);
+}
+
+.quote-panel__label {
+  font-size: 10px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.quote-panel__value {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.quote-panel__bid .quote-panel__value {
+  color: #0099ff;
+}
+
+.quote-panel__ask .quote-panel__value {
+  color: #ff9900;
+}
+
+.quote-panel__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 8px;
+  border-top: 1px solid #222;
+}
+
+.quote-panel__time {
+  font-size: 10px;
+  color: #444;
+}
+
+.quote-panel__stale-badge {
+  font-size: 10px;
+  color: #ff6600;
+  padding: 2px 6px;
+  border: 1px solid #ff6600;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Autocomplete Styles */
+.quote-panel__input-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.quote-panel__suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #0a0a0a;
+  border: 1px solid #00cc00;
+  border-top: none;
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.quote-panel__suggestion {
+  display: grid;
+  grid-template-columns: 80px 1fr 100px;
+  gap: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #222;
+  transition: background-color 0.1s;
+}
+
+.quote-panel__suggestion:last-child {
+  border-bottom: none;
+}
+
+.quote-panel__suggestion:hover,
+.quote-panel__suggestion--selected {
+  background-color: #002200;
+}
+
+.quote-panel__suggestion-symbol {
+  color: #00ff00;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.quote-panel__suggestion-name {
+  color: #ccc;
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quote-panel__suggestion-exchange {
+  color: #666;
+  font-size: 10px;
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

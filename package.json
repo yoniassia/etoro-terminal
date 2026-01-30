@@ -1,0 +1,54 @@
+{
+  "name": "etoro-terminal",
+  "version": "1.0.0",
+  "description": "eToro Portfolio Terminal",
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test:api": "node scripts/quickApiTest.mjs",
+    "ralph": "node scripts/ralph.mjs",
+    "electron:compile": "tsc -p electron/tsconfig.json",
+    "electron:dev": "npm run electron:compile && cross-env NODE_ENV=development electron .",
+    "electron:build": "npm run build && npm run electron:compile && electron-builder",
+    "electron:pack": "npm run build && npm run electron:compile && electron-builder --dir"
+  },
+  "build": {
+    "appId": "com.etoro.terminal",
+    "productName": "eToro Terminal",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^5.1.2",
+    "cross-env": "^7.0.3",
+    "electron": "^35.7.5",
+    "electron-builder": "^26.4.0",
+    "typescript": "^5.3.3",
+    "vite": "^7.3.1"
+  },
+  "overrides": {
+    "tar": "^7.5.3"
+  }
+}
