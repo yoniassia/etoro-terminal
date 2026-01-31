@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import Login from './components/Login';
 import Workspace from './components/Workspace/Workspace';
 import { CommandBar, CommandBarCommand } from './components/CommandBar';
 import { ActiveSymbolProvider } from './components/Workspace/ActiveSymbolContext';
-import { TradingModeProvider } from './contexts/TradingModeContext';
+import { TradingModeProvider, useTradingMode } from './contexts/TradingModeContext';
 import { WorkspaceProvider, useWorkspaceContext } from './contexts/WorkspaceContext';
 import TradingModeIndicator from './components/TradingModeIndicator';
 import DiagnosticsDrawer from './components/DiagnosticsDrawer';
@@ -11,6 +11,8 @@ import { PanelRegistry } from './components/Workspace/PanelRegistry';
 import { keyManager } from './services/keyManager';
 import { streamingService } from './services/streamingService';
 import { etoroApi } from './services/etoroApi';
+import { useKeyboardShortcuts, PANEL_SHORTCUTS, KeyboardShortcut } from './hooks/useKeyboardShortcuts';
+import { APP_VERSION } from './config/version';
 
 // Import all panels
 import QuotePanelSimple from './components/panels/QuotePanelSimple';
@@ -280,6 +282,48 @@ const FUNCTION_TO_PANEL: Record<string, string> = {
 function TerminalContent({ onLogout, userInfo }: { onLogout: () => void; userInfo: { username: string; fullName: string; customerId: string } | null }) {
   const [showDiagnostics, setShowDiagnostics] = useState(false);
   const { addPanel, openPanelForSymbol } = useWorkspaceContext();
+  const { toggleMode } = useTradingMode();
+
+  // Build keyboard shortcuts
+  const shortcuts: KeyboardShortcut[] = useMemo(() => {
+    const panelShortcuts: KeyboardShortcut[] = Object.entries(PANEL_SHORTCUTS).map(([key, panelType]) => ({
+      key,
+      ctrl: true,
+      description: `Open ${panelType} panel`,
+      action: () => addPanel(panelType),
+    }));
+
+    return [
+      ...panelShortcuts,
+      {
+        key: 'd',
+        ctrl: true,
+        description: 'Toggle diagnostics',
+        action: () => setShowDiagnostics(prev => !prev),
+      },
+      {
+        key: 'm',
+        ctrl: true,
+        description: 'Toggle Demo/Real mode',
+        action: () => toggleMode(),
+      },
+      {
+        key: '/',
+        description: 'Focus command bar',
+        action: () => {
+          const commandInput = document.querySelector<HTMLInputElement>('.command-bar__input');
+          if (commandInput) commandInput.focus();
+        },
+      },
+      {
+        key: 'Escape',
+        description: 'Close diagnostics',
+        action: () => setShowDiagnostics(false),
+      },
+    ];
+  }, [addPanel, toggleMode]);
+
+  useKeyboardShortcuts(shortcuts);
 
   const handleCommand = (command: CommandBarCommand) => {
     console.log('Command received:', command);
@@ -302,6 +346,16 @@ function TerminalContent({ onLogout, userInfo }: { onLogout: () => void; userInf
     <div style={appStyles.container}>
       {/* Header with Command Bar */}
       <div style={appStyles.header}>
+        {/* Version Badge */}
+        <div style={{ 
+          color: '#666', 
+          fontSize: '10px', 
+          fontFamily: '"Courier New", monospace',
+          minWidth: '60px'
+        }}>
+          v{APP_VERSION}
+        </div>
+        
         <div style={appStyles.commandBarContainer}>
           <CommandBar onCommand={handleCommand} />
         </div>
@@ -320,6 +374,7 @@ function TerminalContent({ onLogout, userInfo }: { onLogout: () => void; userInf
           <button
             style={appStyles.diagButton}
             onClick={() => setShowDiagnostics(!showDiagnostics)}
+            title="Ctrl+D"
           >
             [ DIAG ]
           </button>

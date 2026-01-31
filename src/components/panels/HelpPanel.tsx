@@ -92,8 +92,17 @@ export default function HelpPanel(_props: PanelContentProps) {
               <tr><td>Escape</td><td>Close dropdowns/modals</td></tr>
               <tr><td>↑ ↓</td><td>Navigate lists</td></tr>
               <tr><td>Enter</td><td>Select/confirm</td></tr>
-              <tr><td>Ctrl+B</td><td>Buy (in trade ticket)</td></tr>
-              <tr><td>Ctrl+S</td><td>Sell (in trade ticket)</td></tr>
+              <tr><td>Ctrl+1</td><td>Open Quote panel</td></tr>
+              <tr><td>Ctrl+2</td><td>Open Chart panel</td></tr>
+              <tr><td>Ctrl+3</td><td>Open Watchlist panel</td></tr>
+              <tr><td>Ctrl+4</td><td>Open Trade Ticket</td></tr>
+              <tr><td>Ctrl+5</td><td>Open Portfolio panel</td></tr>
+              <tr><td>Ctrl+6</td><td>Open Orders Blotter</td></tr>
+              <tr><td>Ctrl+7</td><td>Open Alerts panel</td></tr>
+              <tr><td>Ctrl+8</td><td>Open Asset Explorer</td></tr>
+              <tr><td>Ctrl+9</td><td>Open Help panel</td></tr>
+              <tr><td>Ctrl+D</td><td>Toggle diagnostics</td></tr>
+              <tr><td>Ctrl+M</td><td>Toggle Demo/Real mode</td></tr>
             </tbody>
           </table>
         </section>

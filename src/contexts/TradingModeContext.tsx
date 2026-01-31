@@ -10,6 +10,7 @@ const SESSION_STORAGE_KEY = 'etoro_trading_mode';
 interface TradingModeContextValue {
   mode: TradingMode;
   setTradingMode: (mode: TradingMode) => void;
+  toggleMode: () => void;
   isRealMode: () => boolean;
   isDemoMode: () => boolean;
   requiresConfirmation: () => boolean;
@@ -46,6 +47,10 @@ export function TradingModeProvider({ children }: TradingModeProviderProps) {
     setMode(newMode);
   }, []);
 
+  const toggleMode = useCallback(() => {
+    setMode(current => current === TradingMode.DEMO ? TradingMode.REAL : TradingMode.DEMO);
+  }, []);
+
   const isRealMode = useCallback(() => mode === TradingMode.REAL, [mode]);
   const isDemoMode = useCallback(() => mode === TradingMode.DEMO, [mode]);
   const requiresConfirmation = useCallback(() => mode === TradingMode.REAL, [mode]);
@@ -53,6 +58,7 @@ export function TradingModeProvider({ children }: TradingModeProviderProps) {
   const value: TradingModeContextValue = {
     mode,
     setTradingMode,
+    toggleMode,
     isRealMode,
     isDemoMode,
     requiresConfirmation,
