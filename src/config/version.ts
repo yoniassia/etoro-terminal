@@ -3,9 +3,9 @@
  * Auto-generated build info and changelog tracking
  */
 
-export const APP_VERSION = '1.1.0';
-export const BUILD_DATE = '2026-01-31';
-export const BUILD_NUMBER = 1;
+export const APP_VERSION = '1.2.0';
+export const BUILD_DATE = '2026-02-01';
+export const BUILD_NUMBER = 2;
 
 export interface ChangelogEntry {
   version: string;
@@ -14,6 +14,19 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.2.0',
+    date: '2026-02-01',
+    changes: [
+      'Added Risk Dashboard panel (RISK)',
+      'Portfolio risk scoring (0-100)',
+      'Value at Risk (VaR) calculation',
+      'Leverage exposure tracking',
+      'Concentration risk analysis (HHI)',
+      'Stop loss coverage alerts',
+      'Position-level risk breakdown',
+    ],
+  },
   {
     version: '1.1.0',
     date: '2026-01-31',

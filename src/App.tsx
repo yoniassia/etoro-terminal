@@ -33,6 +33,7 @@ import HelpPanel from './components/panels/HelpPanel';
 import ConnectionStatusPanel from './components/panels/ConnectionStatusPanel';
 import AssetExplorerPanel from './components/panels/AssetExplorerPanel';
 import ActivityPanel from './components/panels/ActivityPanel';
+import RiskPanel from './components/panels/RiskPanel';
 
 // Register all panel types
 function registerPanels() {
@@ -179,6 +180,14 @@ function registerPanels() {
     defaultWidth: 400,
     defaultHeight: 450,
   });
+
+  PanelRegistry.register({
+    typeId: 'RISK',
+    title: 'Risk Dashboard',
+    component: RiskPanel,
+    defaultWidth: 450,
+    defaultHeight: 550,
+  });
 }
 
 // Register panels on module load
@@ -277,6 +286,7 @@ const FUNCTION_TO_PANEL: Record<string, string> = {
   'STATUS': 'STATUS',
   'EXP': 'EXP',
   'ACT': 'ACT',
+  'RISK': 'RISK',
 };
 
 function TerminalContent({ onLogout, userInfo }: { onLogout: () => void; userInfo: { username: string; fullName: string; customerId: string } | null }) {
