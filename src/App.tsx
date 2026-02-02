@@ -34,6 +34,7 @@ import ConnectionStatusPanel from './components/panels/ConnectionStatusPanel';
 import AssetExplorerPanel from './components/panels/AssetExplorerPanel';
 import ActivityPanel from './components/panels/ActivityPanel';
 import RiskPanel from './components/panels/RiskPanel';
+import PerformancePanel from './components/panels/PerformancePanel';
 
 // Register all panel types
 function registerPanels() {
@@ -188,6 +189,14 @@ function registerPanels() {
     defaultWidth: 450,
     defaultHeight: 550,
   });
+
+  PanelRegistry.register({
+    typeId: 'PERF',
+    title: 'Performance Analytics',
+    component: PerformancePanel,
+    defaultWidth: 400,
+    defaultHeight: 600,
+  });
 }
 
 // Register panels on module load
@@ -287,6 +296,7 @@ const FUNCTION_TO_PANEL: Record<string, string> = {
   'EXP': 'EXP',
   'ACT': 'ACT',
   'RISK': 'RISK',
+  'PERF': 'PERF',
 };
 
 function TerminalContent({ onLogout, userInfo }: { onLogout: () => void; userInfo: { username: string; fullName: string; customerId: string } | null }) {

@@ -3,9 +3,9 @@
  * Auto-generated build info and changelog tracking
  */
 
-export const APP_VERSION = '1.2.0';
-export const BUILD_DATE = '2026-02-01';
-export const BUILD_NUMBER = 2;
+export const APP_VERSION = '1.3.0';
+export const BUILD_DATE = '2026-02-02';
+export const BUILD_NUMBER = 3;
 
 export interface ChangelogEntry {
   version: string;
@@ -14,6 +14,19 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.3.0',
+    date: '2026-02-02',
+    changes: [
+      'Added Performance Analytics panel (PERF)',
+      'Total return and P&L tracking',
+      'Win rate and profit factor calculations',
+      'Sharpe ratio estimation',
+      'Maximum drawdown tracking',
+      'Best/worst performer identification',
+      'Time-based filtering (All/1D/1W/1M)',
+    ],
+  },
   {
     version: '1.2.0',
     date: '2026-02-01',
