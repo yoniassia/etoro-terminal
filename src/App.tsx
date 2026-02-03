@@ -35,6 +35,7 @@ import AssetExplorerPanel from './components/panels/AssetExplorerPanel';
 import ActivityPanel from './components/panels/ActivityPanel';
 import RiskPanel from './components/panels/RiskPanel';
 import PerformancePanel from './components/panels/PerformancePanel';
+import MarketOverviewPanel from './components/panels/MarketOverviewPanel';
 
 // Register all panel types
 function registerPanels() {
@@ -197,6 +198,14 @@ function registerPanels() {
     defaultWidth: 400,
     defaultHeight: 600,
   });
+
+  PanelRegistry.register({
+    typeId: 'MKT',
+    title: 'Market Overview',
+    component: MarketOverviewPanel,
+    defaultWidth: 500,
+    defaultHeight: 550,
+  });
 }
 
 // Register panels on module load
@@ -297,6 +306,7 @@ const FUNCTION_TO_PANEL: Record<string, string> = {
   'ACT': 'ACT',
   'RISK': 'RISK',
   'PERF': 'PERF',
+  'MKT': 'MKT',
 };
 
 function TerminalContent({ onLogout, userInfo }: { onLogout: () => void; userInfo: { username: string; fullName: string; customerId: string } | null }) {

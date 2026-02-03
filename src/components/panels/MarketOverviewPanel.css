@@ -1,0 +1,93 @@
+/* MarketOverviewPanel.css */
+
+/* Smooth scrollbar styling */
+.market-overview-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.market-overview-content::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.market-overview-content::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
+
+.market-overview-content::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
+
+/* Card hover animation */
+.market-card {
+  transition: all 0.2s ease;
+}
+
+.market-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 255, 0, 0.1);
+}
+
+/* Pulse animation for status dot when market is open */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.status-dot-active {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Price change flash animation */
+@keyframes flash-green {
+  0%, 100% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(0, 255, 0, 0.1);
+  }
+}
+
+@keyframes flash-red {
+  0%, 100% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(255, 68, 68, 0.1);
+  }
+}
+
+.price-up {
+  animation: flash-green 0.5s ease-out;
+}
+
+.price-down {
+  animation: flash-red 0.5s ease-out;
+}
+
+/* Responsive grid adjustments */
+@media (max-width: 400px) {
+  .market-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Loading shimmer effect */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.loading-shimmer {
+  background: linear-gradient(90deg, #111 0%, #1a1a1a 50%, #111 100%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}

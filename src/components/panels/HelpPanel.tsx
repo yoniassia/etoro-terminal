@@ -55,6 +55,7 @@ export default function HelpPanel(_props: PanelContentProps) {
               <tr><td>PI</td><td>Open Trader Search</td></tr>
               <tr><td>RISK</td><td>Open Risk Dashboard</td></tr>
               <tr><td>PERF</td><td>Open Performance Analytics</td></tr>
+              <tr><td>MKT</td><td>Open Market Overview</td></tr>
             </tbody>
           </table>
         </section>

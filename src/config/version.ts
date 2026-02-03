@@ -3,9 +3,9 @@
  * Auto-generated build info and changelog tracking
  */
 
-export const APP_VERSION = '1.3.0';
-export const BUILD_DATE = '2026-02-02';
-export const BUILD_NUMBER = 3;
+export const APP_VERSION = '1.4.0';
+export const BUILD_DATE = '2026-02-03';
+export const BUILD_NUMBER = 4;
 
 export interface ChangelogEntry {
   version: string;
@@ -14,6 +14,22 @@ export interface ChangelogEntry {
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
+  {
+    version: '1.4.0',
+    date: '2026-02-03',
+    changes: [
+      'Added Market Overview panel (MKT)',
+      'Global indices tracking (SPY, QQQ, DIA, IWM, VIX)',
+      'Crypto majors display (BTC, ETH, SOL)',
+      'Commodities section (Gold, Oil)',
+      'Forex majors (EUR/USD, GBP/USD, USD/JPY)',
+      'Real-time market status indicator',
+      'Market sentiment summary (up/down counts)',
+      'Biggest mover highlight',
+      'Category filtering tabs',
+      'Auto-refresh every 10 seconds',
+    ],
+  },
   {
     version: '1.3.0',
     date: '2026-02-02',
