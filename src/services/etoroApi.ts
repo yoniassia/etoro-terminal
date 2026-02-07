@@ -45,11 +45,10 @@ export class EToroApiService {
   private isDemo: boolean = true;
 
   constructor(userKey: string, apiKey: string) {
-    console.log('[EToroApiService] Initializing with keys:', {
-      'userKey length': userKey?.length || 0,
-      'userKey preview': userKey?.substring(0, 50) || 'MISSING',
-      'apiKey length': apiKey?.length || 0,
-      'apiKey preview': apiKey?.substring(0, 30) || 'MISSING',
+    // Security: Only log key presence, never actual values
+    console.log('[EToroApiService] Initializing', {
+      hasUserKey: !!userKey,
+      hasApiKey: !!apiKey,
     });
     this.userKey = userKey;
     this.apiKey = apiKey;
@@ -86,13 +85,9 @@ export class EToroApiService {
     Object.assign(headers, options.headers || {});
 
     const url = `${ETORO_API_BASE_URL}${endpoint}`;
-    console.log(`[API Request] ${options.method || 'GET'} ${url}`);
-    console.log('[Full API Headers]', headers);
-    console.log('[API Keys]', {
-      'x-api-key length': this.apiKey.length,
-      'x-api-key first 30': this.apiKey.substring(0, 30),
-      'x-user-key length': this.userKey.length,
-      'x-user-key first 80': this.userKey.substring(0, 80),
+    console.log(`[API Request] ${options.method || 'GET'} ${url}`, {
+      requestId,
+      hasAuth: !!(this.apiKey && this.userKey),
     });
 
     const fetchOptions: RequestInit = {
@@ -101,16 +96,13 @@ export class EToroApiService {
       ...options,
     };
 
-    console.log('[Fetch Options]', {
-      method: fetchOptions.method,
-      url,
-      headersCount: Object.keys(headers).length,
-    });
-
     const response = await fetch(url, fetchOptions);
 
-    console.log(`[API Response] Status: ${response.status} ${response.statusText}`);
-    console.log('[Response Headers]', Object.fromEntries(response.headers.entries()));
+    console.log(`[API Response]`, {
+      status: response.status,
+      statusText: response.statusText,
+      ok: response.ok,
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -119,7 +111,10 @@ export class EToroApiService {
     }
 
     const data = await response.json();
-    console.log('[API Response Data]', data);
+    // Security: Never log response data in production (may contain sensitive info)
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[API Response Data]', data);
+    }
     return data;
   }
 
@@ -128,10 +123,8 @@ export class EToroApiService {
       const endpoint = this.isDemo 
         ? '/api/v1/trading/info/demo/portfolio' 
         : '/api/v1/trading/info/portfolio';
-      console.log(`[EToroApiService] Fetching portfolio from: ${endpoint} (demo=${this.isDemo})`);
+      console.log(`[EToroApiService] Fetching portfolio (demo=${this.isDemo})`);
       const data = await this.makeRequest(endpoint);
-
-      console.log('Full portfolio response:', JSON.stringify(data, null, 2));
 
       const clientPortfolio = data.clientPortfolio || data;
       const credit = clientPortfolio.credit || clientPortfolio.Credit || 0;

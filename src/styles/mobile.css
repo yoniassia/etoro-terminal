@@ -1,0 +1,413 @@
+/**
+ * Mobile-first responsive styles for eToro Terminal
+ * Optimizes the Bloomberg-style terminal for mobile and tablet devices
+ */
+
+/* ============================================================================
+   Mobile Breakpoints
+   ============================================================================ */
+
+:root {
+  --breakpoint-mobile: 768px;
+  --breakpoint-tablet: 1024px;
+  --breakpoint-desktop: 1440px;
+
+  /* Mobile-optimized spacing */
+  --mobile-padding: 12px;
+  --mobile-gap: 8px;
+  --touch-target-min: 44px; /* Apple HIG minimum */
+}
+
+/* ============================================================================
+   Mobile Container Adjustments
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  /* Main app container */
+  .app-container {
+    padding: var(--mobile-padding);
+    overflow-x: hidden;
+  }
+
+  /* Header adjustments */
+  .header {
+    flex-wrap: wrap;
+    gap: var(--mobile-gap);
+    padding: var(--mobile-padding);
+    min-height: 60px;
+  }
+
+  .header-logo {
+    font-size: 16px;
+  }
+
+  .header-actions {
+    flex-wrap: wrap;
+    gap: var(--mobile-gap);
+  }
+
+  /* Command bar - make touch-friendly */
+  .command-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    min-height: var(--touch-target-min);
+  }
+
+  .command-bar input {
+    font-size: 16px; /* Prevents iOS zoom on focus */
+    min-height: var(--touch-target-min);
+    padding: 12px;
+  }
+
+  /* Workspace/Panel Grid */
+  .workspace {
+    grid-template-columns: 1fr; /* Single column on mobile */
+    gap: var(--mobile-gap);
+    padding: var(--mobile-padding);
+  }
+
+  .panel {
+    min-width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .panel-header {
+    padding: 12px;
+    min-height: var(--touch-target-min);
+    font-size: 16px;
+  }
+
+  .panel-content {
+    padding: var(--mobile-padding);
+    font-size: 14px;
+  }
+
+  /* Panel close/action buttons - make touch-friendly */
+  .panel-close-btn,
+  .panel-action-btn {
+    min-width: var(--touch-target-min);
+    min-height: var(--touch-target-min);
+    padding: 12px;
+  }
+
+  /* Tables - horizontal scroll with sticky columns */
+  .data-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .data-table {
+    font-size: 13px;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 10px 8px;
+    white-space: nowrap;
+  }
+
+  /* First column sticky on scroll */
+  .data-table th:first-child,
+  .data-table td:first-child {
+    position: sticky;
+    left: 0;
+    background: inherit;
+    z-index: 1;
+  }
+
+  /* Buttons - touch-friendly sizing */
+  button,
+  .btn {
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  /* Form inputs - prevent iOS zoom */
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+    min-height: var(--touch-target-min);
+    padding: 12px;
+  }
+
+  /* Trade Ticket - optimize for mobile */
+  .trade-ticket {
+    padding: var(--mobile-padding);
+  }
+
+  .trade-ticket-inputs {
+    flex-direction: column;
+    gap: var(--mobile-gap);
+  }
+
+  .trade-ticket-buttons {
+    flex-direction: column;
+    gap: var(--mobile-gap);
+  }
+
+  .trade-ticket-buy-btn,
+  .trade-ticket-sell-btn {
+    width: 100%;
+    min-height: 56px; /* Larger for important actions */
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  /* Quote Panel - responsive layout */
+  .quote-panel-grid {
+    grid-template-columns: 1fr;
+    gap: var(--mobile-gap);
+  }
+
+  .quote-price {
+    font-size: 32px; /* Large, readable price */
+  }
+
+  .quote-change {
+    font-size: 18px;
+  }
+
+  /* Portfolio - card layout on mobile */
+  .portfolio-positions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--mobile-gap);
+  }
+
+  .position-card {
+    padding: var(--mobile-padding);
+    border-radius: 8px;
+    background: var(--panel-bg);
+  }
+
+  /* Watchlist Monitor - virtual scrolling remains, but optimized rows */
+  .watchlist-row {
+    min-height: 60px;
+    padding: var(--mobile-padding);
+  }
+
+  .watchlist-symbol {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  /* Charts - full width, responsive height */
+  .chart-container {
+    width: 100%;
+    height: 300px; /* Fixed height on mobile */
+  }
+
+  /* Modal/Dialog - full screen on mobile */
+  .modal,
+  .dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 0;
+  }
+
+  .modal-content {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  /* Bottom sheet for mobile actions */
+  .mobile-action-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--panel-bg);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    padding: var(--mobile-padding);
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .mobile-action-sheet.active {
+    transform: translateY(0);
+  }
+
+  /* Hide desktop-only elements */
+  .desktop-only {
+    display: none !important;
+  }
+
+  /* Show mobile-only elements */
+  .mobile-only {
+    display: block;
+  }
+}
+
+/* ============================================================================
+   Tablet Adjustments (768px - 1024px)
+   ============================================================================ */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .workspace {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 16px;
+  }
+
+  .panel {
+    min-width: 400px;
+  }
+}
+
+/* ============================================================================
+   Touch Interactions
+   ============================================================================ */
+
+/* Improve tap feedback */
+@media (hover: none) and (pointer: coarse) {
+  button,
+  .btn,
+  .clickable {
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+
+  button:active,
+  .btn:active,
+  .clickable:active {
+    transform: scale(0.98);
+    transition: transform 0.1s;
+  }
+
+  /* Disable hover effects on touch devices */
+  *:hover {
+    /* Hover states disabled on touch */
+  }
+}
+
+/* ============================================================================
+   Mobile Navigation
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  /* Hamburger menu for panel navigation */
+  .mobile-nav-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+
+  .mobile-panel-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 998;
+    padding: var(--mobile-padding);
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .mobile-panel-menu.active {
+    transform: translateX(0);
+  }
+
+  .mobile-panel-menu-item {
+    padding: 16px;
+    margin: 8px 0;
+    background: var(--panel-bg);
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+}
+
+/* ============================================================================
+   Accessibility - High Contrast for Mobile
+   ============================================================================ */
+
+@media (max-width: 768px) and (prefers-contrast: high) {
+  .panel {
+    border: 2px solid var(--border-color);
+  }
+
+  button,
+  .btn {
+    border: 2px solid currentColor;
+  }
+}
+
+/* ============================================================================
+   Dark Mode Adjustments for Mobile
+   ============================================================================ */
+
+@media (max-width: 768px) and (prefers-color-scheme: dark) {
+  .modal,
+  .mobile-action-sheet {
+    background: #1a1a1a;
+  }
+
+  .mobile-panel-menu {
+    background: rgba(0, 0, 0, 0.95);
+  }
+}
+
+/* ============================================================================
+   Landscape Mobile Adjustments
+   ============================================================================ */
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .workspace {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .quote-price {
+    font-size: 24px; /* Smaller in landscape */
+  }
+
+  .chart-container {
+    height: 200px;
+  }
+}
+
+/* ============================================================================
+   Print Styles (Mobile)
+   ============================================================================ */
+
+@media print {
+  .mobile-nav-toggle,
+  .mobile-action-sheet,
+  .command-bar,
+  .panel-close-btn {
+    display: none;
+  }
+
+  .panel {
+    page-break-inside: avoid;
+  }
+}

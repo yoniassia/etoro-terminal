@@ -3,6 +3,7 @@
 
 import { API_BASE_URL, REQUIRED_HEADERS, CONTENT_TYPE_JSON, API_STATUS } from './contracts/endpoints';
 import type { ApiError, ApiHeaders } from './contracts/etoro-api.types';
+import { cacheLayer, requestDeduplicator, generateCacheKey } from './cacheLayer';
 
 // ============================================================================
 // Types
@@ -17,6 +18,9 @@ export interface RequestOptions {
   timeout?: number;
   retries?: number;
   retryDelay?: number;
+  cache?: boolean; // Enable caching for this request (default: true for GET)
+  cacheTtl?: number; // Cache TTL in milliseconds
+  skipDeduplication?: boolean; // Skip request deduplication
 }
 
 export interface RestAdapterConfig {
@@ -241,6 +245,19 @@ export class RestAdapter {
   async makeRequest<T = unknown>(endpoint: string, options: RequestOptions = {}): Promise<T> {
     const method = options.method || 'GET';
     const url = `${this.baseUrl}${endpoint}`;
+
+    // Check cache for GET requests (unless explicitly disabled)
+    const shouldCache = options.cache !== false && method === 'GET';
+    const cacheKey = shouldCache ? generateCacheKey(url, options.body as Record<string, unknown>) : '';
+
+    if (shouldCache) {
+      const cached = cacheLayer.get<T>(cacheKey);
+      if (cached !== null) {
+        console.log(`[REST] ✓ Cache hit: ${url}`);
+        return cached;
+      }
+    }
+
     const headers = this.buildHeaders(method, options.headers);
     const requestId = headers[REQUIRED_HEADERS.REQUEST_ID];
     const startTime = Date.now();
@@ -258,6 +275,10 @@ export class RestAdapter {
 
     const retries = options.retries ?? this.maxRetries;
     const retryDelay = options.retryDelay ?? this.retryDelay;
+
+    // Use request deduplication (unless explicitly disabled)
+    const shouldDeduplicate = options.skipDeduplication !== true && method === 'GET';
+    const dedupKey = shouldDeduplicate ? cacheKey : '';
 
     const executeRequest = async (): Promise<T> => {
       const controller = new AbortController();
@@ -311,13 +332,41 @@ export class RestAdapter {
 
         this.onResponse(responseContext);
 
+        // Store in cache if enabled
+        if (shouldCache && cacheKey) {
+          cacheLayer.set(cacheKey, data, options.cacheTtl);
+        }
+
         return data;
       } finally {
         clearTimeout(timeoutId);
       }
     };
 
+    // Use request deduplication for GET requests
+    if (shouldDeduplicate && dedupKey) {
+      return requestDeduplicator.fetch(dedupKey, () =>
+        this.executeWithRetry(executeRequest, context, retries, retryDelay)
+      );
+    }
+
     return this.executeWithRetry(executeRequest, context, retries, retryDelay);
+  }
+
+  /**
+   * Invalidate cache for a specific endpoint
+   */
+  invalidateCache(endpoint: string): void {
+    const url = `${this.baseUrl}${endpoint}`;
+    const pattern = new RegExp(`^${url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}`);
+    cacheLayer.invalidatePattern(pattern);
+  }
+
+  /**
+   * Clear all cached data
+   */
+  clearCache(): void {
+    cacheLayer.clear();
   }
 
   async get<T = unknown>(endpoint: string, options: Omit<RequestOptions, 'method' | 'body'> = {}): Promise<T> {

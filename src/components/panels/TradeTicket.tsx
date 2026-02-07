@@ -38,6 +38,8 @@ export default function TradeTicket({ symbol: propSymbol = '', instrumentId: pro
   const { activeSymbol } = useActiveSymbol();
   const hasApiKeys = keyManager.hasKeys();
   const initializedRef = useRef(false);
+  const abortControllerRef = useRef<AbortController | null>(null);
+  const lastTradeIdRef = useRef<string | null>(null);
 
   const [symbol, setSymbol] = useState(propSymbol);
   const [instrumentId, setInstrumentId] = useState<number | undefined>(propInstrumentId);
@@ -103,6 +105,20 @@ export default function TradeTicket({ symbol: propSymbol = '', instrumentId: pro
       return;
     }
 
+    // Prevent duplicate trades - create unique trade ID
+    const tradeId = `${instrumentId}-${side}-${Date.now()}`;
+    if (lastTradeIdRef.current === tradeId) {
+      console.warn('[TradeTicket] Duplicate trade prevented:', tradeId);
+      return;
+    }
+    lastTradeIdRef.current = tradeId;
+
+    // Cancel any pending trade
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    abortControllerRef.current = new AbortController();
+
     setIsSubmitting(true);
     setSubmitError(null);
 
@@ -154,6 +170,11 @@ export default function TradeTicket({ symbol: propSymbol = '', instrumentId: pro
       activityStore.addOrderRejected(activityMode, symbol, message);
     } finally {
       setIsSubmitting(false);
+      abortControllerRef.current = null;
+      // Reset trade ID after short delay to allow legitimate rapid trades
+      setTimeout(() => {
+        lastTradeIdRef.current = null;
+      }, 1000);
     }
   }, [instrumentId, isDemoMode, leverage, inputMode, value, stopLoss, takeProfit, symbol, onSubmit]);
 

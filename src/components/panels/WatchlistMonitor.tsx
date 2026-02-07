@@ -226,7 +226,14 @@ export default function WatchlistMonitor({
     });
 
     return () => {
+      // Cleanup subscriptions
       unsubscribes.forEach((unsub) => unsub());
+
+      // CRITICAL: Clear all flash timeouts to prevent memory leak
+      flashTimeoutsRef.current.forEach((timeout) => {
+        clearTimeout(timeout);
+      });
+      flashTimeoutsRef.current.clear();
     };
   }, [visibleItems, handleQuoteUpdate]);
 
