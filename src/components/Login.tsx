@@ -66,6 +66,29 @@ export default function Login({ onLogin, error, loading }: LoginProps) {
           </div>
         )}
       </form>
+
+      <div style={{ 
+        textAlign: 'center', 
+        marginTop: '24px', 
+        paddingTop: '16px', 
+        borderTop: '1px solid #003300' 
+      }}>
+        <a
+          href="#/about"
+          style={{
+            color: '#00cc00',
+            textDecoration: 'none',
+            fontFamily: '"Courier New", monospace',
+            fontSize: '13px',
+            opacity: 0.7,
+            transition: 'opacity 0.2s',
+          }}
+          onMouseOver={(e) => (e.currentTarget.style.opacity = '1')}
+          onMouseOut={(e) => (e.currentTarget.style.opacity = '0.7')}
+        >
+          [ ABOUT THIS TERMINAL ]
+        </a>
+      </div>
     </div>
   );
 }

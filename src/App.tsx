@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import Login from './components/Login';
+import AboutPage from './components/AboutPage';
 import Workspace from './components/Workspace/Workspace';
 import { CommandBar, CommandBarCommand } from './components/CommandBar';
 import { ActiveSymbolProvider } from './components/Workspace/ActiveSymbolContext';
@@ -401,6 +402,17 @@ function TerminalContent({ onLogout, userInfo }: { onLogout: () => void; userInf
         
         <div style={appStyles.headerActions}>
           <TradingModeIndicator />
+          <a
+            href="#/about"
+            style={{
+              ...appStyles.diagButton,
+              textDecoration: 'none',
+              display: 'inline-block',
+            }}
+            title="About eToro Terminal"
+          >
+            [ ABOUT ]
+          </a>
           <button
             style={appStyles.diagButton}
             onClick={() => setShowDiagnostics(!showDiagnostics)}
@@ -428,9 +440,22 @@ function TerminalContent({ onLogout, userInfo }: { onLogout: () => void; userInf
   );
 }
 
+// Simple hash-based route hook
+function useHashRoute() {
+  const [hash, setHash] = useState(window.location.hash);
+  useEffect(() => {
+    const onHashChange = () => setHash(window.location.hash);
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
+  return hash;
+}
+
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState<{ username: string; fullName: string; customerId: string } | null>(null);
+  const hash = useHashRoute();
+  const showAbout = hash === '#/about';
 
   // Check if keys are already stored and connect streaming
   useEffect(() => {
@@ -480,6 +505,15 @@ export default function App() {
     keyManager.clearKeys();
     setIsLoggedIn(false);
   };
+
+  const navigateToTerminal = useCallback(() => {
+    window.location.hash = '';
+  }, []);
+
+  // Show About page (accessible from any state)
+  if (showAbout) {
+    return <AboutPage onEnterTerminal={navigateToTerminal} />;
+  }
 
   if (!isLoggedIn) {
     return <Login onLogin={handleLogin} />;
